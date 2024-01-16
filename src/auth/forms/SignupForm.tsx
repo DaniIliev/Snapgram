@@ -7,12 +7,13 @@ import { FormMessage, Form, FormControl, FormDescription, FormField, FormItem, F
 import { useForm } from "react-hook-form"
 import { singUpValidationSchema } from "@/lib/validation"
 import { z } from "zod"
+import { Loader } from "@/components/shared/loader"
 
 
 
 
 const SignupForm = () => {
-
+  let isLoading = true;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof singUpValidationSchema>>({
@@ -97,7 +98,17 @@ const SignupForm = () => {
             />
 
 
-            <Button type="submit" className="bg-indigo-300 hover:bg-violet-500">Submit</Button>
+            <Button type="submit" disabled={isLoading} className="hover:bg-indigo-300 bg-violet-500">
+              {
+                isLoading ?(
+                  <div className="flex flex-center items-center gap-2">
+                    <Loader />
+                  </div>
+                ):(
+                  'Sign up'
+                )      
+              }
+            </Button>
           </form>
         </div>
       </Form>
