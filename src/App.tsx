@@ -5,7 +5,7 @@ import SignupForm from "./auth/forms/SignupForm"
 import { Home } from "./root/pages"
 import { AuthLayout } from "./auth/AuthLayout"
 import {RootLayout} from './root/RootLayout'
-
+import './globals.css'
 
 function App() {
 
