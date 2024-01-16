@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { singUpValidationSchema } from "@/lib/validation"
 import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
+import { Link } from "react-router-dom"
 
 
 
@@ -38,7 +39,7 @@ const SignupForm = () => {
         <div className="flex flex-col flex-center items-center sm:w-420">
           <img src="/logo.svg" alt="logo" />
           <h2 className="text-white h3-bold md:h2-bold pt-5 sm:pt-10">Create a new account</h2>
-          <p className="text-slate-300 small-medium md:base-regular mt-2">To use use Snapgram enter your account details</p>
+          <p className="text-slate-300 small-medium md:base-regular mt-2">To use use Snapgram, please enter your account details</p>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
             <FormField
               control={form.control}
@@ -109,6 +110,10 @@ const SignupForm = () => {
                 )      
               }
             </Button>
+
+            <p className="text-small-regular text-slate-200 text-center ">Already have an account?
+            <Link to='/sign-in' className="text-violet-500 text-bold ml-2">Log in</Link>
+            </p>
           </form>
         </div>
       </Form>
