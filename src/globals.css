@@ -135,3 +135,14 @@
     @apply text-[10px] font-medium leading-[140%];
   }
 }
+
+
+@layer color {
+  .white{
+    @apply text-white
+  }
+
+  .slate{
+    @apply  bg-slate-600
+  }
+}
