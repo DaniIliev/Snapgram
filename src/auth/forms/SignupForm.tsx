@@ -22,8 +22,8 @@ const SignupForm = () => {
 
   const {checkAuthUser, isLoading: isUserLoading} = useUserContext()
 
-  const {mutateAsync: createUserAccount , isLoading: isCreatingUser} = useCreateUserAccount()
-  const {mutateAsync: signInAccount, isLoading: isSignIn} = useSignInAccount()
+  const {mutateAsync: createUserAccount , isPending: isCreatingAccount} = useCreateUserAccount()
+  const {mutateAsync: signInAccount, isPending: isSignIn} = useSignInAccount()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof singUpValidationSchema>>({
@@ -133,7 +133,7 @@ const SignupForm = () => {
 
             <Button type="submit" onSubmit={form.handleSubmit(onSubmit)} className="hover:bg-indigo-300 bg-violet-500">
               {
-                isLoading ?(
+                isCreatingAccount ?(
                   <div className="flex flex-center items-center gap-2">
                     <Loader />
                   </div>
