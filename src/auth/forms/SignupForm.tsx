@@ -9,12 +9,13 @@ import { singUpValidationSchema } from "@/lib/validation"
 import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
 import { Link } from "react-router-dom"
+import { createUserAccount } from "@/lib/appwrite/api"
 
 
 
 
 const SignupForm = () => {
-  let isLoading = true;
+  let isLoading = false;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof singUpValidationSchema>>({
@@ -29,8 +30,11 @@ const SignupForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof singUpValidationSchema>) {
-    // const newUser = await createUserAccount(values)
     console.log(values)
+    const newUser = await createUserAccount(values)
+    console.log('1')
+
+    console.log(newUser)
   }
   return (
     <>
@@ -47,7 +51,7 @@ const SignupForm = () => {
                 <FormItem>
                   <FormLabel className="white">Name</FormLabel>
                   <FormControl>
-                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" />
+                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" {...field}/>
                   </FormControl>
                   <FormDescription>
                     This is your public display name.
@@ -63,7 +67,7 @@ const SignupForm = () => {
                 <FormItem>
                   <FormLabel className="white">Username</FormLabel>
                   <FormControl>
-                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" />
+                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" {...field}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,7 +81,7 @@ const SignupForm = () => {
                 <FormItem>
                   <FormLabel className="white">Email</FormLabel>
                   <FormControl>
-                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" />
+                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" {...field}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,7 +94,7 @@ const SignupForm = () => {
                 <FormItem>
                   <FormLabel className="white">Password</FormLabel>
                   <FormControl>
-                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" />
+                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" {...field}/>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,7 +102,7 @@ const SignupForm = () => {
             />
 
 
-            <Button type="submit" disabled={isLoading} className="hover:bg-indigo-300 bg-violet-500">
+            <Button type="submit" onSubmit={form.handleSubmit(onSubmit)} className="hover:bg-indigo-300 bg-violet-500">
               {
                 isLoading ?(
                   <div className="flex flex-center items-center gap-2">
