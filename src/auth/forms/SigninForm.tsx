@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { FormMessage, Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 
 import { useForm } from "react-hook-form"
-import { singUpValidationSchema } from "@/lib/validation"
+import { singinValidationSchema } from "@/lib/validation"
 import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
 import { Link, useNavigate } from "react-router-dom"
@@ -22,11 +22,11 @@ export const SigninForm = () => {
 
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext()
 
-  const { mutateAsync: signInAccount, isPending: isSignIn } = useSignInAccount()
+  const { mutateAsync: signInAccount, } = useSignInAccount()
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof singUpValidationSchema>>({
-    resolver: zodResolver(singUpValidationSchema),
+  const form = useForm<z.infer<typeof singinValidationSchema>>({
+    resolver: zodResolver(singinValidationSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -34,7 +34,7 @@ export const SigninForm = () => {
   })
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof singUpValidationSchema>) {
+  async function onSubmit(values: z.infer<typeof singinValidationSchema>) {
 
     const session = await signInAccount({
       email: values.email,
@@ -46,8 +46,9 @@ export const SigninForm = () => {
     }
     const isLoggedIn = await checkAuthUser()
 
+
     if (isLoggedIn) {
-      form.reset()
+      form.reset() 
 
       navigate('/')
     } else {
@@ -76,7 +77,7 @@ export const SigninForm = () => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="password"
@@ -94,7 +95,7 @@ export const SigninForm = () => {
 
             <Button type="submit" onSubmit={form.handleSubmit(onSubmit)} className="hover:bg-indigo-300 bg-violet-500">
               {
-                isSignIn ? (
+                isUserLoading ? (
                   <div className="flex flex-center items-center gap-2">
                     <Loader />
                   </div>
@@ -105,7 +106,7 @@ export const SigninForm = () => {
             </Button>
 
             <p className="text-small-regular text-slate-200 text-center ">Don't habe an account?
-              <Link to='/sign-up' className="text-violet-500 text-bold ml-2">Sign up</Link>
+              <Link to='/sign-up' className="text-violet-500 text-bold ml-2">Sign in</Link>
             </p>
           </form>
         </div>
