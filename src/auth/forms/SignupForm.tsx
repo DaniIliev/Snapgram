@@ -10,7 +10,7 @@ import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
 import { Link } from "react-router-dom"
 import { createUserAccount } from "@/lib/appwrite/api"
-import { useCreateUserAccount } from "@/lib/react-query/queryAndMutations"
+import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queryAndMutations"
 
 
 
@@ -30,6 +30,8 @@ const SignupForm = () => {
   })
 
   const {mutateAsync: createUserAccount , isLoading: isCreatingUser} = useCreateUserAccount()
+
+  const {mutateAsync: signInAccount, isLoading: isSignIn} = useSignInAccount()
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof singUpValidationSchema>) {
 
@@ -41,7 +43,14 @@ const SignupForm = () => {
       })
     }
 
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    })
 
+    if(!session){
+      return toast({title: "Sign up failed: Please try again."})
+    }
   }
   return (
     <>
