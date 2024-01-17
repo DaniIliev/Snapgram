@@ -8,15 +8,22 @@ import { useForm } from "react-hook-form"
 import { singUpValidationSchema } from "@/lib/validation"
 import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
-import { Link } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import { createUserAccount } from "@/lib/appwrite/api"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queryAndMutations"
+import { useUserContext } from "@/context/authContext"
 
 
 
 
 const SignupForm = () => {
   const {toast} = useToast()
+  const navigate = useNavigate()
+
+  const {checkAuthUser, isLoading: isUserLoading} = useUserContext()
+
+  const {mutateAsync: createUserAccount , isLoading: isCreatingUser} = useCreateUserAccount()
+  const {mutateAsync: signInAccount, isLoading: isSignIn} = useSignInAccount()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof singUpValidationSchema>>({
@@ -29,9 +36,6 @@ const SignupForm = () => {
     },
   })
 
-  const {mutateAsync: createUserAccount , isLoading: isCreatingUser} = useCreateUserAccount()
-
-  const {mutateAsync: signInAccount, isLoading: isSignIn} = useSignInAccount()
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof singUpValidationSchema>) {
 
@@ -49,6 +53,15 @@ const SignupForm = () => {
     })
 
     if(!session){
+      return toast({title: "Sign up failed: Please try again."})
+    }
+    const isLoggedIn = await checkAuthUser()
+
+    if(isLoggedIn){
+      form.reset()
+      
+      navigate('/')
+    }else{
       return toast({title: "Sign up failed: Please try again."})
     }
   }
