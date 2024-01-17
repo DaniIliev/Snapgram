@@ -10,12 +10,12 @@ import { z } from "zod"
 import { Loader } from "@/components/shared/loader"
 import { Link } from "react-router-dom"
 import { createUserAccount } from "@/lib/appwrite/api"
+import { useCreateUserAccount } from "@/lib/react-query/queryAndMutations"
 
 
 
 
 const SignupForm = () => {
-  let isLoading = false;
   const {toast} = useToast()
 
   // 1. Define your form.
@@ -29,6 +29,7 @@ const SignupForm = () => {
     },
   })
 
+  const {mutateAsync: createUserAccount , isLoading: isCreatingUser} = useCreateUserAccount()
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof singUpValidationSchema>) {
 
@@ -40,7 +41,7 @@ const SignupForm = () => {
       })
     }
 
-    
+
   }
   return (
     <>
