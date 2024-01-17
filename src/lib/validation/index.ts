@@ -7,3 +7,9 @@ export const singUpValidationSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8, {message: 'Password muss be at least 8 characters'})
   })
+
+  export const singinValidationSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8, {message: 'Password muss be at least 8 characters'})
+  })
+
