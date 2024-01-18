@@ -61,7 +61,7 @@ function LeftSideBar() {
                 </ul>
             </div>
 
-            <Button onClick={() => signOut} className='flex gap-4 items-center justify-start hover:bg-violet-300'>
+            <Button onClick={() => signOut()} className='flex gap-4 items-center justify-start hover:bg-violet-300'>
                 <img src="/icons/logout.svg" alt="logout" />
                 <p className='small-medium lg:base-medium'>Logout</p>
             </Button>
