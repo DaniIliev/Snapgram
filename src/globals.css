@@ -134,6 +134,10 @@
   .tiny-medium {
     @apply text-[10px] font-medium leading-[140%];
   }
+
+  .topbar {
+    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+  }
 }
 
 
