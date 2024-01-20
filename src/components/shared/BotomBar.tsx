@@ -11,6 +11,7 @@ export const BotomBar = () => {
         const isActive = pathname === link.route;
         return (
             <Link
+              key={link.imgURL}
               to={link.route}
               className={`flex flex-col justify-center items-center p-2 gap-1 transition text-white ${isActive &&
                 'bg-violet-300 border-ra rounded-[10px]'}`}
