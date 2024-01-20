@@ -98,7 +98,7 @@ export async function createPost(post: INewPost){
     try {
         //upload image to storage
         const uploadedFile = await uploadFile(post.file[0])
-
+        
         if(!uploadedFile) throw Error
 
         //Get file URL
@@ -138,35 +138,39 @@ export async function createPost(post: INewPost){
 }
 
 export async function uploadFile(file: File){
+    // console.log(file)
     try {
         const uploadedFile = await storage.createFile(
             appwriteConfig.storageId,
             ID.unique(),
             file
         )
-        console.log('UploadedFile', uploadFile)
+        console.log('UploadedFile', uploadedFile)
         return uploadedFile
     } catch (error) {
         console.log(error)
     }
 }
 
-export async function getFilePreview(fileId:string) {
+export function getFilePreview(fileId: string) {
     try {
-        const fileUrl = storage.getFilePreview(
-            appwriteConfig.storageId,
-            fileId,
-            2000,
-            2000,
-            'top',
-            100
-        )
-        console.log('GetPreview', fileUrl)
-        return fileUrl
+      const fileUrl = storage.getFilePreview(
+        appwriteConfig.storageId,
+        fileId,
+        2000,
+        2000,
+        "top",
+        100
+      );
+  
+      if (!fileUrl) throw Error;
+  
+      return fileUrl;
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  }
+  
 
 export async function deleteFile(fileId: string){
     try {
