@@ -3,33 +3,55 @@ import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import {
-    Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
 import FileUploader from '../shared/FileUploader'
+import { postValidationSchema } from '@/lib/validation'
+import { Models } from 'appwrite'
+import { useUserContext } from '@/context/authContext'
+import { toast } from '../ui/use-toast'
+import { useNavigate } from 'react-router-dom'
+import { useCreatePost } from '@/lib/react-query/queryAndMutations'
+import { Loader } from '../shared/loader'
 
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-})
-const PostForm = ({post}) => {
+type PostFormProps = {
+    post?: Models.Document
+}
+
+const PostForm = ({ post }: PostFormProps) => {
+
+    const { mutateAsync: createPost, isPending: isLoadingCreate } =
+        useCreatePost();
+    const { user } = useUserContext()
+    const navigate = useNavigate()
+
     // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof postValidationSchema>>({
+        resolver: zodResolver(postValidationSchema),
         defaultValues: {
-            username: "",
+            caption: post ? post?.caption : "",
+            file: [],
+            location: post ? post?.location : "",
+            tags: post ? post.tags.join(',') : ""
         },
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof postValidationSchema>) {
+        const newPost = await createPost({
+            ...values,
+            userId: user.id
+        })
+
+        if (!newPost) {
+            toast({
+                title: 'Please try again'
+            })
+        } else {
+            navigate('/')
+        }
     }
     return (
         <Form {...form}>
@@ -58,9 +80,9 @@ const PostForm = ({post}) => {
                         <FormItem>
                             <FormLabel className='text-white'>Add Photos</FormLabel>
                             <FormControl>
-                                <FileUploader 
-                                fieldChange={field.onChange}
-                                mediaUrl={post?.imageUrl}
+                                <FileUploader
+                                    fieldChange={field.onChange}
+                                    mediaUrl={post?.imageUrl}
                                 />
                             </FormControl>
                             <FormMessage className='text-red' />
@@ -77,7 +99,7 @@ const PostForm = ({post}) => {
                             <FormControl>
                                 <Input
                                     type='text'
-                                    className='bg-slate-600 text-white rounded-xl border-none' />
+                                    className='bg-slate-600 text-white rounded-xl border-none' {...field} />
                             </FormControl>
                             <FormMessage className='text-red' />
                         </FormItem>
@@ -96,6 +118,7 @@ const PostForm = ({post}) => {
                                     type='text'
                                     className='bg-slate-600 placeholder:text-zinc-300 rounded-xl border-none'
                                     placeholder="Art, Expression, Learn"
+                                    {...field}
                                 />
                             </FormControl>
                             <FormMessage className='text-red' />
@@ -103,13 +126,18 @@ const PostForm = ({post}) => {
                     )}
                 />
                 <div className='flex justify-center gap-10'>
-                    <Button 
-                    type="button"
-                    className='text-white bg-slate-600 hover:bg-slate-700'
-                    >Cansel</Button>
-                    <Button 
-                    type="submit"
-                    className='bg-violet-300 hover:bg-violet-400'>Submit</Button>
+                    <Button
+                        type="button"
+                        className='text-white bg-slate-600 hover:bg-slate-700'
+                    >Cansel
+                    </Button>
+
+                    <Button
+                        type="submit"
+                        className='bg-violet-300 hover:bg-violet-400'>
+                        {isLoadingCreate && <Loader/>}
+                        Submit
+                    </Button>
                 </div>
 
             </form>
