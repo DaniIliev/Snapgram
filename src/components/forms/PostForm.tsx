@@ -26,7 +26,7 @@ const PostForm = ({ post }: PostFormProps) => {
         useCreatePost();
     const { user } = useUserContext()
     const navigate = useNavigate()
-
+    console.log(user)
     // 1. Define your form.
     const form = useForm<z.infer<typeof postValidationSchema>>({
         resolver: zodResolver(postValidationSchema),

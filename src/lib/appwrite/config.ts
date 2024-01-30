@@ -1,11 +1,11 @@
 import {Client, Account, Databases, Storage, Avatars} from 'appwrite'
-import * as env from '../../../environment'
+import * as env from '../../../env'
 
 
 export const appwriteConfig =  {
-    projectID: env.VITE_APPWRITE_PROJECT_ID,
+    projectID: env.VITE_APPRITE_PROJECT_ID,
     URL: env.VITE_APPRITE_URL,
-    databaseID: env.VITE_APPRITE_DATABASES_ID,
+    databaseID: env.VITE_APPRITE_DATABASE_ID,
     storageId: env.VITE_APPRITE_STORAGE_ID,
     userCollectionId: env.VITE_APPRITE_USER_COLLECTION_ID,
     postCollectionId: env.VITE_APPRITE_POST_COLLECTION_ID,

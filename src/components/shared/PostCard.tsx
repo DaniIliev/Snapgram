@@ -3,6 +3,7 @@ import { formatTimeAgo } from '@/lib/utils'
 import { Models } from 'appwrite'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PostStats from './PostStats'
 
 type PostCardProps = {
     post: Models.Document
@@ -12,7 +13,6 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
 
     const {user} = useUserContext();
-
     return (
         <div className=' bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm'>
             <div className='flex justify-between items-center'>
@@ -45,9 +45,9 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
             <Link to={`/post/${post.$id}`}>
                 <div className='small-medium lg:base-medium py-5'>
-                    <p>{post.caption}</p>
+                    <p className='text-white'>{post.caption}</p>
                     <ul className='flex gap-1 mt-2'>
-                        {post.tags.map((tag: string)  => (
+                        { post.tags.length > 1 && post.tags.map((tag: string)  => (
                             <li key={tag} className='text-white'>
                                 #{tag}
                             </li>
@@ -59,6 +59,8 @@ const PostCard = ({ post }: PostCardProps) => {
                 className=' h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5' 
                 alt="postImage" />
             </Link>
+
+            <PostStats post={post} userId={user.id}/> 
         </div>
     )
 }

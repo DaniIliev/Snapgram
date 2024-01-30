@@ -1,0 +1,61 @@
+{
+  "hash": "3e30661a",
+  "configHash": "2aae2584",
+  "lockfileHash": "308290b7",
+  "browserHash": "dde95813",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "d60e11f7",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "350820a9",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "57463125",
+      "needsInterop": false
+    },
+    "@tanstack/react-query": {
+      "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
+      "file": "@tanstack_react-query.js",
+      "fileHash": "5fa8c47d",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "0c7c4936",
+      "needsInterop": true
+    },
+    "@hookform/resolvers/zod": {
+      "src": "../../node_modules/@hookform/resolvers/zod/dist/zod.mjs",
+      "file": "@hookform_resolvers_zod.js",
+      "fileHash": "46cf0555",
+      "needsInterop": false
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "b1a56b0b",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-S7MSN5PM": {
+      "file": "chunk-S7MSN5PM.js"
+    },
+    "chunk-VO6D7EEE": {
+      "file": "chunk-VO6D7EEE.js"
+    },
+    "chunk-AVIRXYGP": {
+      "file": "chunk-AVIRXYGP.js"
+    }
+  }
+}
