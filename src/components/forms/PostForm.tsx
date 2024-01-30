@@ -17,10 +17,11 @@ import { useCreatePost } from '@/lib/react-query/queryAndMutations'
 import { Loader } from '../shared/loader'
 
 type PostFormProps = {
-    post?: Models.Document
+    post?: Models.Document,
+    action: 'Create' | 'Update',
 }
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
 
     const { mutateAsync: createPost, isPending: isLoadingCreate } =
         useCreatePost();
@@ -52,6 +53,7 @@ const PostForm = ({ post }: PostFormProps) => {
         } else {
             navigate('/')
         }
+        console.log(post?.imageUrl)
     }
     return (
         <Form {...form}>
