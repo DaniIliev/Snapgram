@@ -13,8 +13,9 @@ import { Models } from 'appwrite'
 import { useUserContext } from '@/context/authContext'
 import { toast } from '../ui/use-toast'
 import { useNavigate } from 'react-router-dom'
-import { useCreatePost } from '@/lib/react-query/queryAndMutations'
+import { useCreatePost, useUpdatePost } from '@/lib/react-query/queryAndMutations'
 import { Loader } from '../shared/loader'
+import { updatePost } from '@/lib/appwrite/api'
 
 type PostFormProps = {
     post?: Models.Document,
@@ -23,11 +24,11 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
 
-    const { mutateAsync: createPost, isPending: isLoadingCreate } =
-        useCreatePost();
+    const { mutateAsync: createPost, isPending: isLoadingCreate } = useCreatePost();
+    const { mutateAsync: updatePost, isPending: isLoadingUpdate } = useUpdatePost();
+
     const { user } = useUserContext()
     const navigate = useNavigate()
-    console.log(user)
     // 1. Define your form.
     const form = useForm<z.infer<typeof postValidationSchema>>({
         resolver: zodResolver(postValidationSchema),
@@ -41,6 +42,22 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof postValidationSchema>) {
+
+        if(post && action === 'Update'){
+            const updatedPost = await updatePost({
+                ...values,
+                postId: post.$id,
+                imageId: post?.imageId,
+                imageUrl: post?.imageUrl
+            })
+
+
+            if(!updatedPost){
+                toast({title: 'Please try again'})
+            }
+            return navigate(`/posts/${post.$id}`)
+        }
+
         const newPost = await createPost({
             ...values,
             userId: user.id
@@ -53,7 +70,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
         } else {
             navigate('/')
         }
-        console.log(post?.imageUrl)
+
     }
     return (
         <Form {...form}>
@@ -67,7 +84,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormControl>
                                 <Textarea
                                     placeholder="shadcn"
-                                    className='bg-slate-600 placeholder:text-zinc-300 h-36 rounded-xl border-none'
+                                    className='bg-slate-600 text-zinc-300  h-36 rounded-xl border-none'
                                     {...field} />
                             </FormControl>
                             <FormMessage className='text-red' />
@@ -101,7 +118,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormControl>
                                 <Input
                                     type='text'
-                                    className='bg-slate-600 text-white rounded-xl border-none' {...field} />
+                                    className='bg-slate-600  text-zinc-300  rounded-xl border-none' {...field} />
                             </FormControl>
                             <FormMessage className='text-red' />
                         </FormItem>
@@ -138,7 +155,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         type="submit"
                         className='bg-violet-300 hover:bg-violet-400'>
                         {isLoadingCreate && <Loader/>}
-                        Submit
+                        {action === 'Create' ? 'Submit' : 'Edit'}
                     </Button>
                 </div>
 
