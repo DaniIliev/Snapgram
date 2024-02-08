@@ -153,9 +153,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
                     <Button
                         type="submit"
-                        className='bg-violet-300 hover:bg-violet-400'>
+                        className='bg-violet-300 hover:bg-violet-400 '>
                         {isLoadingCreate && <Loader/>}
-                        {action === 'Create' ? 'Submit' : 'Edit'}
+                        {action === 'Create' ? 'Submit' : 'Update Post'}
                     </Button>
                 </div>
 
