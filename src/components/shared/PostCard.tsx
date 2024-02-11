@@ -14,7 +14,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
     const {user} = useUserContext();
     return (
-        <div className=' bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm'>
+        <div className='bg-neutral-700 border-none rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm'>
             <div className='flex justify-between items-center'>
                 <div className='flex items-center gap-3'>
                     <Link to={`/profile/${post.creator.$id}`}>

@@ -18,7 +18,7 @@ function LeftSideBar() {
         }
     }, [isSuccess])
     return (
-        <nav className=' hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2'>
+        <nav className=' bg-neutral-700 hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2'>
             <div className='flex flex-col gap-11'>
                 <Link to='/' className='flex gap-3 items-center'>
                     <img src="/logo.svg" alt="logo" width={170} height={36} />
@@ -38,7 +38,7 @@ function LeftSideBar() {
                     </div>
                 </Link>
 
-                <ul className='flex flex-col gap-6'>
+                <ul className=' flex flex-col gap-6'>
                     {sidebarLinks.map((link: INavLink) => {
                         const isActive = pathname === link.route;
                         return (

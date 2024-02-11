@@ -8,10 +8,10 @@ import { useState } from 'react'
 export const Explore = () => {
     const [searchValue, setSearchValue] = useState('')
 
-    const {data: posts, fetchNextPage, hasNextPage } = useGetPosts()
-    const {data: searchPosts, isFetching: isSearchFetching} = useSearchPost(searchValue)
+    const { data: posts, fetchNextPage, hasNextPage } = useGetPosts()
+    const { data: searchPosts, isFetching: isSearchFetching } = useSearchPost(searchValue)
 
-    if(!posts){
+    if (!posts) {
         return (
             <div className='flex items-center justify-center w-full h-full'>
                 <Loader />
@@ -21,12 +21,12 @@ export const Explore = () => {
 
     console.log(posts)
     const shouldShowSearchResults = searchValue !== "";
-    const shouldShowPosts = !shouldShowSearchResults && 
-      posts.pages.every((item) => item!.documents.length === 0);
+    const shouldShowPosts = !shouldShowSearchResults &&
+        posts.pages.every((item) => item!.documents.length === 0);
 
     return (
-        <div className='flex flex-col items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar'>
-            <div className='max-w-5xl flex flex-col items-center w-full gap-6 md:gap-9'>
+        <div className='flex flex-col items-center  overflow-scroll py-10 px-5 md:p-14 custom-scrollbar'>
+            <div className='max-w-5xl flex  flex-col items-center w-full gap-6 md:gap-9'>
                 <h2 className='text-white h3-bold md:h2-bold w-full'>Search posts</h2>
                 <div className='flex gap-1 px-4 w-96 rounded-lg bg-zinc-400'>
                     <img src="/icons/search.svg"
@@ -51,21 +51,28 @@ export const Explore = () => {
                     <img src="/icons/filter.svg"
                         alt="filter"
                         width={20}
-                        height={20} 
-                        />
+                        height={20}
+                    />
                 </div>
             </div>
-            <div className='flex flex-gap gap-9 w-full max-w-5xl'>
+            <div className='flex md:flex-col gap-9 w-full max-w-5xl'>
                 {shouldShowSearchResults ? (
-                    <SearchResult 
-                   />
-                ): shouldShowPosts ? (
+                    <SearchResult
+                        isSearchFetching={isSearchFetching}
+                        searchedPost={searchPosts}
+                    />
+                ) : shouldShowPosts ? (
                     <p className='text-zinc-200 mt-10 text-center w-full'>End of posts</p>
-                ): posts.pages.map((item, index) => (
+                ) : posts.pages.map((item, index) => (
                     <GridPostList key={index} posts={item!.documents} />
                 ))}
 
             </div>
+            {/* {hasNextPage && !searchValue && (
+                <div ref={ref} className='mt-10'>
+                    <Loader />
+                </div>
+            )} */}
         </div>
     )
 }
