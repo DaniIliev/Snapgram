@@ -152,6 +152,7 @@ export const useGetPosts = () => {
     })
 }
 
+
 export const useSearchPost = (searchTerm: string) => {
     return useQuery({
         queryKey: [QUERY_KEYS.SEARCH_POST],

@@ -1,8 +1,21 @@
+import { useUserContext } from '@/context/authContext'
+import { Models } from 'appwrite'
 import React from 'react'
 
-const GridPostList = () => {
+type GridPostListProps = {
+    posts: Models.Document[]
+}
+const GridPostList = ({posts}: GridPostListProps) => {
+
+    const {user} = useUserContext()
+    console.log('GridPosts', posts)
+
   return (
-    <div>GridPostList</div>
+    <ul className=''>
+        {posts.map((post) => (
+            <li className='text-white'>{post.caption}</li>
+        ))}
+    </ul>
   )
 }
 

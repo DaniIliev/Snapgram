@@ -1,13 +1,29 @@
 import GridPostList from '@/components/shared/GridPostList';
 import SearchResult from '@/components/shared/SearchResult';
+import { Loader } from '@/components/shared/loader';
 import { Input } from '@/components/ui/input'
+import { useGetPosts, useSearchPost } from '@/lib/react-query/queryAndMutations';
 import { useState } from 'react'
 
 export const Explore = () => {
     const [searchValue, setSearchValue] = useState('')
 
-    // const shouldShowSearchResult = searchValue != '';
-    // const shouldShowPosts = !shouldShowSearchResult 
+    const {data: posts, fetchNextPage, hasNextPage } = useGetPosts()
+    const {data: searchPosts, isFetching: isSearchFetching} = useSearchPost(searchValue)
+
+    if(!posts){
+        return (
+            <div className='flex items-center justify-center w-full h-full'>
+                <Loader />
+            </div>
+        )
+    }
+
+    console.log(posts)
+    const shouldShowSearchResults = searchValue !== "";
+    const shouldShowPosts = !shouldShowSearchResults && 
+      posts.pages.every((item) => item!.documents.length === 0);
+
     return (
         <div className='flex flex-col items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar'>
             <div className='max-w-5xl flex flex-col items-center w-full gap-6 md:gap-9'>
@@ -40,17 +56,17 @@ export const Explore = () => {
                 </div>
             </div>
             <div className='flex flex-gap gap-9 w-full max-w-5xl'>
-                {/* {shouldShowSearchResult ? (
-                    <SearchResult />
+                {shouldShowSearchResults ? (
+                    <SearchResult 
+                   />
                 ): shouldShowPosts ? (
                     <p className='text-zinc-200 mt-10 text-center w-full'>End of posts</p>
-                ): post?.pages.map((item, index) => (
-                    <GridPostList key={index} posts={item.documents} />
-                ))} */}
+                ): posts.pages.map((item, index) => (
+                    <GridPostList key={index} posts={item!.documents} />
+                ))}
 
             </div>
         </div>
-
     )
 }
 
