@@ -7,11 +7,13 @@ import {
   useGetUserById,
 } from "@/lib/react-query/queryAndMutations";
 import { Models } from "appwrite";
-import React from "react";
+import { useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import LikedPost from "./LikedPost";
 
 export const Profile = (userId: string) => {
+  const [showPosts, setShowPosts] = useState<boolean>(true)
+  const [showLikedPost, setShowLikedPosts] = useState<boolean>(false)
+
   const { id } = useParams();
   const {pathname} = useLocation()
   const { data: user, isPending } = useGetUserById(id || "");
@@ -19,18 +21,26 @@ export const Profile = (userId: string) => {
   
 
   const isOwner: boolean = id === currentUser?.$id ? true : false;
-  const isActive: boolean = `/profile/${id}` == pathname ? true : false 
   console.log(user?.liked);
+
+  const showLikedPostHandler = () => {
+    setShowLikedPosts(true)
+    setShowPosts(false)
+  }
+
+  const showUserPosts =() => {
+    setShowPosts(true)
+    setShowLikedPosts(false)
+
+  }
+
+
   if (!user || !currentUser)
     return (
       <div className="flex items-center justify-center w-full">
         <Loader />
       </div>
     );
-
-  const showLikedPost = () => {
-    return <LikedPost likedPosts={user?.liked}/>
-  }
 
   return (
     <>
@@ -74,8 +84,9 @@ export const Profile = (userId: string) => {
           </div>
 
           <div className="flex gap-2">
-            <Button className={`hover:bg-violet-300 ${isActive && 'bg-violet-300' }`}>
-              <Link to={`/profile/${id}`} className="flex gap-2 items-center">
+            <Button className={`hover:bg-violet-300 ${showPosts && 'bg-violet-300' } flex gap-2 items-center w-50`}
+            onClick={showUserPosts}
+            >
                 <img
                   src="/icons/add-post.svg"
                   alt="addPost"
@@ -83,10 +94,8 @@ export const Profile = (userId: string) => {
                   height={24}
                 />
                 Posts
-              </Link>
             </Button>
-            <Button className={`hover:bg-violet-300  }`} onClick={showLikedPost}>
-              <Link to={`/profile/${id}/likedPosts`} className="flex gap-2 items-center w-50">
+            <Button className={`hover:bg-violet-300  ${showLikedPost && 'bg-violet-300'} flex gap-2 items-center w-50`} onClick={showLikedPostHandler}>
                 <img
                   src="/icons/liked.svg"
                   width={24}
@@ -94,7 +103,6 @@ export const Profile = (userId: string) => {
                   alt="liked"
                 />
                 Liked Posts
-              </Link>
             </Button>
           </div>
         </div>
