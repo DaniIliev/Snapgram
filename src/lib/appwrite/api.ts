@@ -397,3 +397,17 @@ export async function getUserById(userId: string){
     }
 }
 
+
+// export async function upgradeUserInfo(user: {
+//     accountId: string,
+//     email: string,
+//     name: string,
+//     imageUrl:URL,
+//     username?: string}) {
+    
+//         try {
+//             const upgradeUserInfo = await 
+//         } catch (error) {
+//             console.log(error)
+//         }
+// }
