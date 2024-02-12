@@ -2,6 +2,7 @@ import {ID, Query} from 'appwrite'
 
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
+import { useGetCurrentUser } from '../react-query/queryAndMutations';
 
 export async function createUserAccount(user:INewUser){
     try{
@@ -381,3 +382,4 @@ export async function searchPosts(searchTerm: string){
         console.log(error)
     }
 }
+
