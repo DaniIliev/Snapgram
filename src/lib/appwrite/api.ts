@@ -1,6 +1,6 @@
 import {ID, Query} from 'appwrite'
 
-import { INewPost, INewUser, IUpdatePost } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 import { useGetCurrentUser } from '../react-query/queryAndMutations';
 
@@ -398,16 +398,50 @@ export async function getUserById(userId: string){
 }
 
 
-// export async function upgradeUserInfo(user: {
-//     accountId: string,
-//     email: string,
-//     name: string,
-//     imageUrl:URL,
-//     username?: string}) {
-    
-//         try {
-//             const upgradeUserInfo = await 
-//         } catch (error) {
-//             console.log(error)
-//         }
-// }
+export async function upgradeUserInfo(user : IUpdateUser) {
+        const hasFileToUpdate = user.file.length > 0
+        try {
+            let image = {
+                imageUrl: user.imageUrl,
+                imageId: user.imageId
+            }
+
+            if(hasFileToUpdate){
+                const uploadedFile = await uploadFile(user.file[0])
+                if(uploadedFile) throw Error
+
+                const fileUrl = getFilePreview(uploadedFile!.$id)
+
+                if(!fileUrl){
+                    await deleteFile(uploadedFile!.$id)
+                    throw Error
+                }
+                image = {...image, imageUrl: fileUrl, imageId: uploadedFile!.$id}
+            }
+            const updateUser = await databases.updateDocument(
+                appwriteConfig.databaseID,
+                appwriteConfig.userCollectionId,
+                user.userId,
+                {
+                    name: user.name,
+                    bio: user.bio,
+                    imageUrl: image.imageUrl,
+                    imageId: image.imageId
+                }
+            )
+
+            if(!updateUser){
+                if(hasFileToUpdate){
+                    await deleteFile(image.imageId)
+                }
+                throw Error
+            }
+
+            if(user.imageId && hasFileToUpdate){
+                await deleteFile(user.imageId)
+            }
+            return updateUser
+        } catch (error) {
+            console.log(error)
+        }
+}

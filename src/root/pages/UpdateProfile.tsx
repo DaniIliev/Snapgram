@@ -1,10 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useUserContext } from '@/context/authContext'
+import { upgradeUserInfo } from '@/lib/appwrite/api'
 import { useGetCurrentUser } from '@/lib/react-query/queryAndMutations'
-import { updateProfileValidation } from '@/lib/validation'
+import { ProfileValidation } from '@/lib/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,24 +18,45 @@ const UpdateProfile = () => {
   const navigate = useNavigate()
 
   const {data: currentUser, isPending} = useGetCurrentUser()
-
+  const {user, setUser} = useUserContext()
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof updateProfileValidation>>({
-    resolver: zodResolver(updateProfileValidation),
+  const form = useForm<z.infer<typeof ProfileValidation>>({
+    resolver: zodResolver(ProfileValidation),
     defaultValues: {
-      name: currentUser?.name,
-      username: currentUser?.username,
-      email: currentUser?.email,
-      password: "",
+      file: [],
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      bio: user.bio || "",
     },
   })
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof updateProfileValidation>) {
-  
+  async function handleUpdate(values: z.infer<typeof ProfileValidation>) {
+    const updateUser = await upgradeUserInfo({
+      userId: currentUser!.$id,
+      name: values.name,
+      bio: values.bio,
+      file: values.file,
+      imageUrl: currentUser?.imageUrl,
+      imageId: currentUser?.imageId
+    })
 
+    if(!updateUser){
+      toast({
+        title: 'Update user failed. Please try again.'
+      })
+    }
 
+    setUser({
+      ...user,
+      name: updateUser?.name,
+      bio: updateUser?.bio,
+      imageUrl: updateUser?.imageUrl
+
+    })
+    navigate(`/profile/${user.id}`)
   }
   return (
     <>
@@ -43,7 +66,8 @@ const UpdateProfile = () => {
           <img src="/logo.svg" alt="logo" />
           <h2 className="text-white h3-bold md:h2-bold pt-5 sm:pt-10">Upgrade your personal Information</h2>
           <p className="text-slate-300 small-medium md:base-regular mt-2">To use use Snapgram, please enter your account details</p>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
+          <form onSubmit={form.handleSubmit(handleUpdate)} className="flex flex-col gap-5 w-full mt-4">
+ 
             <FormField
               control={form.control}
               name="name"
@@ -87,22 +111,28 @@ const UpdateProfile = () => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="password"
+              name="bio"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="white">Password</FormLabel>
+                  <FormLabel className="white">Bio</FormLabel>
                   <FormControl>
-                    <Input type="text" className=" bg-slate-600 text-white border-slate-50" {...field}/>
+                    <Textarea
+                      className="bg-slate-600 custom-scrollbar text-white"
+                      placeholder='You can fill your bio here...'
+                      {...field}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="shad-form_message" />
                 </FormItem>
               )}
             />
 
 
-            <Button type="submit" onSubmit={form.handleSubmit(onSubmit)} className="hover:bg-indigo-300 bg-violet-500">
+
+            <Button type="submit" onSubmit={form.handleSubmit(handleUpdate)} className="hover:bg-indigo-300 bg-violet-500">
                 Edit User Profile
             </Button>
             <Button>

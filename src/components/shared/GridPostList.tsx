@@ -8,14 +8,16 @@ type GridPostListProps = {
     posts: Models.Document[],
     showUser: boolean,
     showStats: boolean,
+    
 }
 const GridPostList = ({ posts, showUser = true, showStats = true }: GridPostListProps) => {
 
     const { user } = useUserContext()
-    console.log('GridPosts', posts)
+    console.log(posts)
+    if(!posts) return <h2 className='flex justify-center items-center'>No liked Posts avaible!</h2>
 
     return (
-        <ul className=''>
+        <ul className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl'>
             {posts.map((post) => (
                 <li key={post.$id} className='text-white relative win-w-80 h-80'>
                     <Link to={`/post/${post.$id}`} className='flex rounded-[24px] border-black overflow-hidden cursor-pointer w-full h-full'>

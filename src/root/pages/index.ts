@@ -7,6 +7,5 @@ export {default as PostDetails} from './PostDetails';
 export {default as Profile} from './Profile';
 export {default as UpdateProfile} from './UpdateProfile';
 export {default as AllUsers} from './AllUsers';
-export {default as LikedPost} from './LikedPost';
 
 
