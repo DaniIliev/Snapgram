@@ -19,8 +19,7 @@ export const Profile = (userId: string) => {
   const { data: currentUser, isFetching } = useGetCurrentUser();
 
   const isOwner: boolean = id === currentUser?.$id ? true : false;
-
-  console.log(user)
+  
   const showLikedPostHandler = () => {
     setShowLikedPosts(true);
     setShowPosts(false);
@@ -89,7 +88,6 @@ export const Profile = (userId: string) => {
               </div>
             </div>
           </div>
-
           <div className="flex gap-2">
             <Button
               className={`hover:bg-violet-300 ${
@@ -116,16 +114,20 @@ export const Profile = (userId: string) => {
             </Button>
           </div>
         </div>
+
+        {user.posts.length == 0 && showPosts? <h3 className="h3-bold flex items-center justify-center text-white">No posts uploaded</h3> : ''}
+        {user.liked.length == 0 && showLikedPost ? <h3 className="h3-bold flex items-center justify-center text-white">No liked Posts</h3> : ''}
+
         {showPosts && (
           <GridPostList
-            posts={currentUser?.posts}
+            posts={user?.posts}
             showUser={false}
             showStats={true}
           />
         )}
         {showLikedPost && (
           <GridPostList
-            posts={currentUser?.liked}
+            posts={user.liked}
             showUser={false}
             showStats={false}
           />

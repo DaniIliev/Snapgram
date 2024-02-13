@@ -20,7 +20,7 @@ export const PostDetails = () => {
             {isPending ? (
                 <Loader />
             ) : (
-                <div className="flex flex-col w-full max-w-5xl rounded-[30px] xl:flex-row border xl:rounded-l-[24px]">
+                <div className="flex flex-col w-full max-w-5xl rounded-[30px] ">
                     <img src={post?.imageUrl} alt="post" className='h-64 xs:h-[400px] lg:h-[450px] w-full p-2 rounded-3xl  object-cover mb-5' />
                     <div className="flex  justify-between items-center gap-3 pb-7 ml-2 ">
                         <Link to={`/profile/${post?.creator.$id}`} className="flex items-center gap-3 lg:w-4/5">
