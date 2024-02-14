@@ -467,3 +467,16 @@ export async function followUser(userId: string, followersArray: string[]){
         console.log(error)
     }
 }
+
+
+export async function getRecentUser(){
+    const users = await databases.listDocuments(
+        appwriteConfig.databaseID,
+        appwriteConfig.userCollectionId,
+        [Query.orderDesc('$createdAt'), Query.limit(20)]
+    )
+
+    if(!users) throw Error
+    console.log(users)
+    return users
+}
