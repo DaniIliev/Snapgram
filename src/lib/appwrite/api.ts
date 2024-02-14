@@ -38,7 +38,8 @@ export async function saveUserToDB(user: {
     email: string,
     name: string,
     imageUrl:URL,
-    username?: string
+    username?: string,
+    Followers?: string,
 
 }){
     try{
@@ -444,4 +445,25 @@ export async function upgradeUserInfo(user : IUpdateUser) {
         } catch (error) {
             console.log(error)
         }
+}
+
+
+export async function followUser(userId: string, followersArray: string[]){
+    console.log(followersArray)
+    try {
+        const updateUser = await databases.updateDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.userCollectionId,
+            userId,
+            {
+                followers: followersArray
+            }
+        )
+
+        if(!updateUser) throw Error
+        console.log(updateUser)
+        return updateUser
+    } catch (error) {
+        console.log(error)
+    }
 }

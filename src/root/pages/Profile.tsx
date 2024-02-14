@@ -1,7 +1,9 @@
 import GridPostList from "@/components/shared/GridPostList";
 import PostCard from "@/components/shared/PostCard";
+import UserStats from "@/components/shared/UserStats";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
+import { saveUserToDB } from "@/lib/appwrite/api";
 import {
   useGetCurrentUser,
   useGetUserById,
@@ -18,6 +20,8 @@ export const Profile = (userId: string) => {
   const { data: user, isPending } = useGetUserById(id || "");
   const { data: currentUser, isFetching } = useGetCurrentUser();
 
+  
+  
   const isOwner: boolean = id === currentUser?.$id ? true : false;
   
   const showLikedPostHandler = () => {
@@ -30,13 +34,14 @@ export const Profile = (userId: string) => {
     setShowLikedPosts(false);
   };
 
+
   if (!user || !currentUser)
     return (
       <div className="flex items-center justify-center w-full">
         <Loader />
       </div>
     );
-
+    // console.log(user)
   return (
     <>
       <div className="text-white flex justify-start items-center flex-col py-4">
@@ -56,7 +61,7 @@ export const Profile = (userId: string) => {
                 <p className="text-zinc-400">@{user.username}</p>
                 <div className="flex gap-10 p-2 items-center">
                   <p className="text-white text-center">Posts: {user?.posts.length}</p>
-                  <p className="text-white">Followers: 0</p>
+                  <p className="text-white">Followers: {user?.followers.length}</p>
                   <p className="text-white">Folllowing: </p>
                 </div>
               </div>
@@ -78,12 +83,7 @@ export const Profile = (userId: string) => {
                     </Link>
                   </Button>
                 ) : (
-                  <Button
-                    onClick={() => console.log("Follow")}
-                    className="bg-blue-500 hover:bg-blue-600"
-                  >
-                    Follow
-                  </Button>
+                  <UserStats user={user} userId={currentUser.$id}/> 
                 )}
               </div>
             </div>
@@ -118,7 +118,7 @@ export const Profile = (userId: string) => {
         {user.posts.length == 0 && showPosts? <h3 className="h3-bold flex items-center justify-center text-white">No posts uploaded</h3> : ''}
         {user.liked.length == 0 && showLikedPost ? <h3 className="h3-bold flex items-center justify-center text-white">No liked Posts</h3> : ''}
 
-        {showPosts && (
+        {showPosts &&(
           <GridPostList
             posts={user?.posts}
             showUser={false}

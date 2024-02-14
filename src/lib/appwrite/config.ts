@@ -9,7 +9,8 @@ export const appwriteConfig =  {
     storageId: env.VITE_APPRITE_STORAGE_ID,
     userCollectionId: env.VITE_APPRITE_USER_COLLECTION_ID,
     postCollectionId: env.VITE_APPRITE_POST_COLLECTION_ID,
-    savesCollectionId: env.VITE_APPRITE_SAVES_COLLECTION_ID
+    savesCollectionId: env.VITE_APPRITE_SAVES_COLLECTION_ID,
+    followersCollectionId: env.VITE_APPRITE_FOLLOWERS_COLLECTION_ID
 }
 
 export const client = new Client()
