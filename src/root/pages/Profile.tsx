@@ -41,7 +41,7 @@ export const Profile = (userId: string) => {
         <Loader />
       </div>
     );
-    // console.log(user)
+    
   return (
     <>
       <div className="text-white flex justify-start items-center flex-col py-4">

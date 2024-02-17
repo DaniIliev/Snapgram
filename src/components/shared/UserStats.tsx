@@ -10,10 +10,11 @@ type UserStatsProps = {
 };
 
 const UserStats = ({ user, userId }: UserStatsProps) => {
+  console.log(userId)
   const followersList = user.followers?.map((id: string) => id);
 
   const [followers, setFollowers] = useState(followersList);
-  const [hasFollowed, setHasFollowed] = useState(false)
+  const [hasFollowed, setHasFollowed] = useState(followersList.includes(userId))
 
   const { mutate: followUser, isPending: isFollowUser } = useFollowUser();
 
@@ -28,9 +29,10 @@ const UserStats = ({ user, userId }: UserStatsProps) => {
     } else {
       newFollowers.push(userId);
     }
-    console.log(newFollowers);
+
     setFollowers(newFollowers);
     followUser({ userId: user.$id, followersArray: newFollowers });
+    setHasFollowed((state:boolean) => !state)
   };
   return (
 
@@ -41,7 +43,7 @@ const UserStats = ({ user, userId }: UserStatsProps) => {
     >
 
     {isFollowUser ? <Loader /> : 
-       followers.includes(userId) ? 'Unfollow' : 'Follow'
+       hasFollowed ? 'Unfollow' : 'Follow'
     }
     </Button>
   );
