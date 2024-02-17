@@ -5,17 +5,17 @@ import GridPostList from './GridPostList'
 
 type SearchResultProps = {
   isSearchFetching: boolean,
-  searchedPost: Models.Document[]
+  searchedPost: Models.Document | undefined
 }
 
 const SearchResult = ({isSearchFetching, searchedPost}: SearchResultProps) => {
-  
+
   if(isSearchFetching) return <Loader />
 
   if(searchedPost && searchedPost.documents.length > 0){
 
     return(
-      <GridPostList posts={searchedPost.documents}/>
+      <GridPostList posts={searchedPost.documents} showUser={true} showStats={true}/>
     )
   }
   return (

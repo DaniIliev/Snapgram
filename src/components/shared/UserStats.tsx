@@ -1,6 +1,6 @@
 import { useFollowUser } from "@/lib/react-query/queryAndMutations";
 import { Models } from "appwrite";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Loader } from "./loader";
 
@@ -10,11 +10,10 @@ type UserStatsProps = {
 };
 
 const UserStats = ({ user, userId }: UserStatsProps) => {
-  console.log(userId)
   const followersList = user.followers?.map((id: string) => id);
 
   const [followers, setFollowers] = useState(followersList);
-  const [hasFollowed, setHasFollowed] = useState(followersList.includes(userId))
+  const [hasFollowed, setHasFollowed] = useState(followersList?.includes(userId))
 
   const { mutate: followUser, isPending: isFollowUser } = useFollowUser();
 

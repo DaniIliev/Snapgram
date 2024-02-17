@@ -15,7 +15,7 @@ const UserCard = ({ user}: UserCardProps) => {
   return (
 
     <div className="flex justify-between items-center border-black p-4 rounded-2xl w-96 bg-neutral-700">
-      <Link to={`/profile/${user.$id}`} className="flex items-center gap-3">
+      <Link to={`/profile/${user?.$id}`} className="flex items-center gap-3">
         <img
           src={user?.imageUrl || "/icons/profile-placeholder.svg"}
           alt="profile-image"

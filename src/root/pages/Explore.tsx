@@ -19,7 +19,6 @@ export const Explore = () => {
         )
     }
 
-    console.log(posts)
     const shouldShowSearchResults = searchValue !== "";
     const shouldShowPosts = !shouldShowSearchResults &&
         posts.pages.every((item) => item!.documents.length === 0);
@@ -64,7 +63,7 @@ export const Explore = () => {
                 ) : shouldShowPosts ? (
                     <p className='text-zinc-200 mt-10 text-center w-full'>End of posts</p>
                 ) : posts.pages.map((item, index) => (
-                    <GridPostList key={index} posts={item!.documents} />
+                    <GridPostList key={index} posts={item!.documents} showUser={true} showStats={true} />
                 ))}
 
             </div>

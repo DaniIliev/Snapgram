@@ -477,6 +477,24 @@ export async function getRecentUser(){
     )
 
     if(!users) throw Error
-    console.log(users)
-    return users
+      return users
+}
+
+export async function searchUsers(searchTerm: string){
+    try {
+        const users = await databases.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.userCollectionId,
+        )
+
+        const searchedUsers = users.documents.filter((user) => 
+            user.name.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase(), 0)
+        )
+
+        if(!users) throw Error
+
+        return searchedUsers
+    } catch (error) {
+        console.log(error);
+    }
 }
