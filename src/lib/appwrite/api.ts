@@ -486,9 +486,13 @@ export async function searchUsers(searchTerm: string){
             appwriteConfig.databaseID,
             appwriteConfig.userCollectionId,
         )
+        const searchTermLength = searchTerm.length
+
+
 
         const searchedUsers = users.documents.filter((user) => 
-            user.name.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase(), 0)
+            // user.name.toLocaleLowerCase().startsWith(searchTerm.toLocaleLowerCase(), 0) &&
+            user.name.slice(0,searchTermLength).toLocaleLowerCase() === searchTerm.toLocaleLowerCase()
         )
 
         if(!users) throw Error
