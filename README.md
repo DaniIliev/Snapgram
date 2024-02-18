@@ -4,10 +4,10 @@
 ## Table of Contents
 * [ ℹ️ Introduction](#introduction)
 * [⚙️Tech Stack](#techStack)
-* [How It Works](#how-it-works)
-* [Features](#features)
+* [👷How It Works](#how-it-works)
+* [🔋Features](#features)
 * [🤸Quick Start](#quickStart)
-* [Screenshots](#screenshots)
+* [📸Screenshots](#screenshots)
 
 
 ## ℹ️ Introduction
@@ -41,8 +41,8 @@ navigation</li>
 - Shadcn
 - Tailwind CSS
 
-## How it work
-  <а>Upon registration, each user creates their own profile. The user has the ability to view posts posted by other people as well as like and save posts. User can follow other people. User can create their own posts as well as edit them</а>
+## 👷How it work
+  Upon registration, each user creates their own profile. The user has the ability to view posts posted by other people as well as like and save posts. User can follow other people. User can create their own posts as well as edit them
 
 ## 🤸 Quick Start 
 Follow these steps to set up the project locally on your machine.
@@ -66,4 +66,18 @@ npm start
 
 Open http://localhost:5173 in your browser to view the project.
 
+## 📸Screenshots
+![SS1](./public//scr/scr1.jpg)
+![SS2](./public//scr/scr2.jpg)
+![SS3](./public//scr/scr3.jpg)
+![SS4](./public//scr/scr4.jpg)
+![SS5](./public//scr/scr5.jpg)
+![SS6](./public//scr/scr6.jpg)
+![SS7](./public//scr/scr7.jpg)
+![SS8](./public//scr/scr8.jpg)
+![SS9](./public//scr/scr9.jpg)
+![SS10](./public//scr/scr10.jpg)
+![SS11](./public//scr/scr11.jpg)
+![SS12](./public//scr/scr12.jpg)
+![SS13](./public//scr/scr13.jpg)
 

@@ -100,13 +100,13 @@ export const SigninForm = () => {
                     <Loader />
                   </div>
                 ) : (
-                  'Sign up'
+                  'Sign in'
                 )
               }
             </Button>
 
             <p className="text-small-regular text-slate-200 text-center ">Don't habe an account?
-              <Link to='/sign-up' className="text-violet-500 text-bold ml-2">Sign in</Link>
+              <Link to='/sign-up' className="text-violet-500 text-bold ml-2">Sign up</Link>
             </p>
           </form>
         </div>
