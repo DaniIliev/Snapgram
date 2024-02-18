@@ -12,7 +12,7 @@ const Home = () => {
     <div className="flex flex-1 justify-center">
       <div className='flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar'>
         <div className="flex justify-center items-center flex-col">
-          <h2 className="h3-bold md:h2-bold text-left w-full text-white">Home Feed</h2>
+          {/* <h2 className="h3-bold md:h2-bold text-left w-full text-white">Home Feed</h2> */}
           {isLoading && !posts ? (
             <Loader />
           ) : (
