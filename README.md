@@ -2,9 +2,8 @@
 ![logo](/public/logo.svg)
 
 ## Table of Contents
-* [Introduction](#introduction)
+* [ ℹ️ Introduction](#introduction)
 * [⚙️Tech Stack](#techStack)
-* [Built With](#built-with)
 * [How It Works](#how-it-works)
 * [Features](#features)
 * [🤸Quick Start](#quickStart)
@@ -18,9 +17,6 @@ Explore social media with this user-friendly platform that has a nice look and l
 ## 🔋Features 
 <a name="features"/>
 <ul>
-
-
-</ul>
 <li>👉 Authentication System: A robust authentication system ensuring security and user privacy</li>
 
 <li>👉 Explore Page: Homepage for users to explore posts</li>
@@ -35,6 +31,7 @@ navigation</li>
 <li>👉 React Query Integration: Incorporate the React Query (Tanstack Query) data fetching library for, Auto caching to enhance performance, Parallel queries for efficient data retrieval, First-class Mutations, etc</li>
 <li>👉 Backend as a Service (BaaS) - Appwrite: Utilize Appwrite as a Backend as a Service solution for streamlined backend development, offering features like authentication, database, file storage, and more
 </li>
+</ul>
 
 ## ⚙️Tech Stack
 - React.js
@@ -44,6 +41,8 @@ navigation</li>
 - Shadcn
 - Tailwind CSS
 
+## How it work
+  <а>Upon registration, each user creates their own profile. The user has the ability to view posts posted by other people as well as like and save posts. User can follow other people. User can create their own posts as well as edit them</а>
 
 ## 🤸 Quick Start 
 Follow these steps to set up the project locally on your machine.
